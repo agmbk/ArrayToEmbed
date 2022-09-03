@@ -69,7 +69,7 @@ class ArrayToCanvas extends ArrayManager {
 	/**
 	 * @name setContainerXOffset
 	 * @description The container X offset
-	 * @param {number}
+	 * @param {number} containerXOffset
 	 * @return {ArrayToCanvas}
 	 */
 	setContainerXOffset(containerXOffset) {
@@ -80,7 +80,7 @@ class ArrayToCanvas extends ArrayManager {
 	/**
 	 * @name
 	 * @description The container Y offset
-	 * @param {number}
+	 * @param {number} containerYOffset
 	 * @return {ArrayToCanvas}
 	 */
 	setContainerYOffset(containerYOffset) {
@@ -91,7 +91,7 @@ class ArrayToCanvas extends ArrayManager {
 	/**
 	 * @name setBackgroundCanvas
 	 * @description The Canvas
-	 * @param backgroundCanvas
+	 * @param {Canvas} backgroundCanvas
 	 * @return {ArrayToCanvas}
 	 */
 	setBackgroundCanvas(backgroundCanvas) {
@@ -290,11 +290,9 @@ class ArrayToCanvas extends ArrayManager {
 			
 			/** Crop the text */
 			if (field.maxWidth) {
-				console.log( 'MAXWIDTH', field.maxWidth );
 				let textWidth = context.measureText( text ).width;
 				let toRemove;
 				if (field.maxWidth === 'parent' && textWidth > (this.#itemWidth - field.marginX)) {
-					console.log( 'PARENT' );
 					textWidth = textWidth + Math.abs( field.marginX );
 					toRemove = Math.floor( text.length - 2 - (textWidth - this.#itemWidth + field.marginX) / (textWidth / text.length) );
 					text = text.slice( 0, toRemove ) + '...';
@@ -303,59 +301,12 @@ class ArrayToCanvas extends ArrayManager {
 					toRemove = Math.floor( text.length - 2 - (textWidth - field.maxWidth) / (textWidth / text.length) );
 					text = text.slice( 0, toRemove ) + '...';
 				}
-				//console.log('toRemove', toRemove, text, textWidth >  field.maxWidth, textWidth,  field.maxWidth);
 			}
 			
-			//console.log(text,  text.length, textWidth, 'this.#itemWidth', this.#itemWidth, /*text.slice( 0, text.length - 1 ),*/  );
 			/** Writes the text on the field */
 			if (field.stroke) context.strokeText( text, ...textCoords );
 			context.fillText( text, ...textCoords );
 		} );
-		
-		
-		/*
-		 // * Change le nom pour rentrer dans la case
-		 let name = item.name;
-		 let name_metrics = context.measureText( name );
-		 let name_height = name_metrics.actualBoundingBoxAscent + name_metrics.actualBoundingBoxDescent;
-		 let removed_letters = 0;
-		 
-		 while (name_metrics.width > (this.#itemWidth - 4)) {
-		 name =
-		 name_metrics = context.measureText( name );
-		 removed_letters++;
-		 }
-		 
-		 if (removed_letters > 0) {
-		 name = name.substring( 0, name.length - 3 );
-		 name += '...';
-		 }
-		 
-		 // * Change le poids pour rentrer dans la case
-		 let weight_metrics = context.measureText( item.weight );
-		 let weight_height = weight_metrics.actualBoundingBoxAscent + weight_metrics.actualBoundingBoxDescent;
-		 
-		 context.fillStyle = '#ffffff';
-		 
-		 if (this.#canvasItem.strokeText) context.fillText( name,itemLeftCoords + 4,itemTopCoords + name_height + 4 );
-		 // * Écrire le nom
-		 // Nom de l'item
-		 context.strokeText( name,itemLeftCoords + 4,itemTopCoords + name_height + 4 );
-		 
-		 
-		 // * Écrire la quantité d'item
-		 // Nombre d'items
-		 context.strokeText( item.number,itemLeftCoords + 4,itemTopCoords + this.#itemHeight - 4 );
-		 context.fillText( item.number,itemLeftCoords + 4,itemTopCoords + this.#itemHeight - 4 );
-		 
-		 // * Convertir et écrire le poids de l'item
-		 // Poids de l'item
-		 context.strokeText( item.weight,itemLeftCoords + this.#itemWidth - weight_metrics.width - 4,itemTopCoords + this.#itemHeight - 4 );
-		 context.fillText( item.weight,itemLeftCoords + this.#itemWidth - weight_metrics.width - 4,itemTopCoords + this.#itemHeight - 4 );
-		 
-		 
-		 */
-		
 	}
 }
 
