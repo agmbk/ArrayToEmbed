@@ -258,7 +258,7 @@ class ArrayToCanvas extends ArrayManager {
 			
 			/** Item side placement and alignement */
 			let textCoords,
-			extraXSpacing = field.align === 'center' ?  this.#itemWidth / 2 : 0;
+				extraXSpacing = field.align === 'center' ? this.#itemWidth / 2 : 0;
 			switch (field.corner) {
 				case Corner.topLeft:
 					field.align ? context.textAlign = field.align : context.textAlign = 'left';
@@ -290,11 +290,11 @@ class ArrayToCanvas extends ArrayManager {
 			
 			/** Crop the text */
 			if (field.maxWidth) {
-				console.log('MAXWIDTH', field.maxWidth);
+				console.log( 'MAXWIDTH', field.maxWidth );
 				let textWidth = context.measureText( text ).width;
 				let toRemove;
 				if (field.maxWidth === 'parent' && textWidth > (this.#itemWidth - field.marginX)) {
-					console.log('PARENT');
+					console.log( 'PARENT' );
 					textWidth = textWidth + Math.abs( field.marginX );
 					toRemove = Math.floor( text.length - 2 - (textWidth - this.#itemWidth + field.marginX) / (textWidth / text.length) );
 					text = text.slice( 0, toRemove ) + '...';
