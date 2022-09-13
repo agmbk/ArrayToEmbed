@@ -78,7 +78,7 @@ class ArrayToCanvas extends ArrayManager {
 	}
 	
 	/**
-	 * @name
+	 * @name setContainerYOffset
 	 * @description The container Y offset
 	 * @param {number} containerYOffset
 	 * @return {ArrayToCanvas}
@@ -261,20 +261,20 @@ class ArrayToCanvas extends ArrayManager {
 				extraXSpacing = field.align === 'center' ? this.#itemWidth / 2 : 0;
 			switch (field.corner) {
 				case Corner.topLeft:
-					field.align ? context.textAlign = field.align : context.textAlign = 'left';
-					field.baseLine ? context.textBaseline = field.baseLine : context.textBaseline = 'top';
+					context.textAlign = field.align || 'left';
+					context.textBaseline = field.baseLine || 'top';
 					textCoords = [itemLeftCoords + field.marginX + extraXSpacing, itemTopCoords + field.marginY];
 					break;
 				case Corner.topRight:
-					field.baseLine ? context.textBaseline = field.baseLine : context.textBaseline = 'top';
+					context.textBaseline = field.baseLine || 'top';
 					textCoords = [itemRightCoords + field.marginX - extraXSpacing, itemTopCoords + field.marginY];
 					break;
 				case Corner.bottomLeft:
-					field.baseLine ? context.textBaseline = field.baseLine : context.textBaseline = 'bottom';
+					context.textBaseline = field.baseLine || 'bottom';
 					textCoords = [itemLeftCoords + field.marginX + extraXSpacing, itemBottomCoords + field.marginY];
 					break;
 				case Corner.bottomRight:
-					field.baseLine ? context.textBaseline = field.baseLine : context.textBaseline = 'bottom';
+					context.textBaseline = field.baseLine || 'bottom';
 					textCoords = [itemRightCoords + field.marginX - extraXSpacing, itemBottomCoords + field.marginY];
 					break;
 			}
@@ -345,17 +345,17 @@ class CanvasItem {
 			if (!field.name) throw new Error( 'Item field name is missing' );
 			return {
 				name: field.name,
-				font: field.font ? field.font : '20px sans-serif',
-				color: field.color ? field.color : '#FFFFFF',
-				marginX: field.marginX ? field.marginX : 0,
-				marginY: field.marginY ? field.marginY : 0,
+				font: field.font || '20px sans-serif',
+				color: field.color || '#FFFFFF',
+				marginX: field.marginX || 0,
+				marginY: field.marginY || 0,
 				maxWidth: field.maxWidth,
-				corner: field.corner ? field.corner : Corner.topLeft,
+				corner: field.corner || Corner.topLeft,
 				baseLine: field.baseLine,
-				align: field.align ? field.align : 'start',
+				align: field.align || 'start',
 				stroke: field.stroke,
-				strokeColor: field.strokeColor ? field.strokeColor : '#000000',
-				strokeWidth: field.strokeWidth ? field.strokeWidth : 3,
+				strokeColor: field.strokeColor || '#000000',
+				strokeWidth: field.strokeWidth || 3,
 			};
 		} );
 		return this;
