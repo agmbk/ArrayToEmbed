@@ -1,10 +1,11 @@
 const {ArrayToCanvas, Corner} = require( './ArrayManager/ArrayToCanvas' );
+const {ArrayToEmbed} = require( './ArrayManager/ArrayToEmbed' );
 const {buttons} = require( './ArrayManager' );
 
 
 module.exports = {
-	ArrayToEmbed: require( './ArrayManager/ArrayToEmbed' ),
 	ArrayToCanvas,
+	ArrayToEmbed,
 	Corner,
 	buttons,
 };

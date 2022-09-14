@@ -1,5 +1,5 @@
 const {ActionRowBuilder, SelectMenuBuilder} = require( 'discord.js' );
-const ArrayManager = require( './index' );
+const {ArrayManager} = require( './index' );
 
 
 /**
@@ -19,7 +19,7 @@ const ArrayManager = require( './index' );
  * @param {number} itemPerPage Item count displayed on each page
  * @param {number} itemPerColumn Item count displayed on each column
  */
-module.exports = class ArrayToEmbed extends ArrayManager {
+class ArrayToEmbed extends ArrayManager {
 	constructor() {super();}
 	
 	/**
@@ -91,4 +91,6 @@ module.exports = class ArrayToEmbed extends ArrayManager {
 		if (!this.embed) throw new Error( 'Missing embed parameter. (this.setEmbed)' );
 		
 	}
-};
+}
+
+module.exports = {ArrayToEmbed};

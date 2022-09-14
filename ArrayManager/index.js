@@ -4,7 +4,7 @@ const {ActionRowBuilder, SelectMenuBuilder, ButtonBuilder, ButtonStyle} = requir
  * @name buttons
  * @type {{next: ButtonBuilder, exit: ButtonBuilder, previous: ButtonBuilder, current_page: ButtonBuilder}}
  */
-export const buttons = {
+const buttons = {
 	previous: new ButtonBuilder()
 		.setLabel( 'Previous' )
 		.setCustomId( 'previous' )
@@ -48,7 +48,7 @@ const page = {
  * @param {number} itemPerPage Item count displayed on each page
  * @param {number} itemPerColumn Item count displayed on each column
  */
-module.exports = class ArrayManager {
+class ArrayManager {
 	embed;
 	arrayFields;
 	arrayOptions;
@@ -139,8 +139,8 @@ module.exports = class ArrayManager {
 			throw new Error( `Provided buttons are invalids` );
 		}
 		
-		if (!this.buttonExist( button.previous.data.custom_id )) throw new Error( `Add a '${button.previous.data.custom_id}' button to the button list` );
-		if (!this.buttonExist( button.next.data.custom_id )) throw new Error( `Add a '${button.next.data.custom_id}' button to the button list` );
+		if (!this.buttonExist( buttons.previous.data.custom_id )) throw new Error( `Add a '${buttons.previous.data.custom_id}' button to the button list` );
+		if (!this.buttonExist( buttons.next.data.custom_id )) throw new Error( `Add a '${buttons.next.data.custom_id}' button to the button list` );
 		return this;
 	}
 	
@@ -206,7 +206,7 @@ module.exports = class ArrayManager {
 	 * @return {this}
 	 */
 	displayCurrentPageInfo(boolean) {
-		if (!this.buttonExist( button.current_page.data.custom_id )) throw new Error( `Add a '${button.current_page.data.custom_id}' button to the button list` );
+		if (!this.buttonExist( buttons.current_page.data.custom_id )) throw new Error( `Add a '${buttons.current_page.data.custom_id}' button to the button list` );
 		this.#displayCurrentPageInfo = boolean;
 		return this;
 	}
@@ -341,11 +341,11 @@ module.exports = class ArrayManager {
 	 */
 	#disablePrevious(label) {
 		if (label === true) {
-			this.getButton( button.previous.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			this.getButton( buttons.previous.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.previous.data.custom_id ).setDisabled( true ).setLabel( label );
+			this.getButton( buttons.previous.data.custom_id ).setDisabled( true ).setLabel( label );
 		} else {
-			this.getButton( button.previous.data.custom_id ).setDisabled( true );
+			this.getButton( buttons.previous.data.custom_id ).setDisabled( true );
 		}
 	}
 	
@@ -355,11 +355,11 @@ module.exports = class ArrayManager {
 	 */
 	#enablePrevious(label) {
 		if (label === true) {
-			this.getButton( button.previous.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber}/${this.#totalPage + 1}` );
+			this.getButton( buttons.previous.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.previous.data.custom_id ).setDisabled( false ).setLabel( label );
+			this.getButton( buttons.previous.data.custom_id ).setDisabled( false ).setLabel( label );
 		} else {
-			this.getButton( button.previous.data.custom_id ).setDisabled( false );
+			this.getButton( buttons.previous.data.custom_id ).setDisabled( false );
 		}
 	}
 	
@@ -369,11 +369,11 @@ module.exports = class ArrayManager {
 	 */
 	#disableNext(label) {
 		if (label === true) {
-			this.getButton( button.next.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			this.getButton( buttons.next.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.next.data.custom_id ).setDisabled( true ).setLabel( label );
+			this.getButton( buttons.next.data.custom_id ).setDisabled( true ).setLabel( label );
 		} else {
-			this.getButton( button.next.data.custom_id ).setDisabled( true );
+			this.getButton( buttons.next.data.custom_id ).setDisabled( true );
 		}
 	}
 	
@@ -383,11 +383,11 @@ module.exports = class ArrayManager {
 	 */
 	#enableNext(label) {
 		if (label === true) {
-			this.getButton( button.next.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
+			this.getButton( buttons.next.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.next.data.custom_id ).setDisabled( false ).setLabel( label );
+			this.getButton( buttons.next.data.custom_id ).setDisabled( false ).setLabel( label );
 		} else {
-			this.getButton( button.next.data.custom_id ).setDisabled( false );
+			this.getButton( buttons.next.data.custom_id ).setDisabled( false );
 		}
 	}
 	
@@ -399,12 +399,12 @@ module.exports = class ArrayManager {
 	updateButtons() {
 		let buttons_bak = this.#buttons, start, end, menu;
 		
-		if (this.buttonExist( button.current_page.data.custom_id )) {
+		if (this.buttonExist( buttons.current_page.data.custom_id )) {
 			if (this.#displayCurrentPageInfo) {
-				this.setLabel( button.current_page.data.custom_id, `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+				this.setLabel( buttons.current_page.data.custom_id, `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 				
 			} else {
-				this.#buttons = this.removeButton( button.current_page.data.custom_id );
+				this.#buttons = this.removeButton( buttons.current_page.data.custom_id );
 				
 			}
 		}
@@ -415,8 +415,8 @@ module.exports = class ArrayManager {
 			
 			
 		} else if (!this.#totalPage) { /* only one page */
-			this.removeButton( button.next.data.custom_id );
-			this.removeButton( button.previous.data.custom_id );
+			this.removeButton( buttons.next.data.custom_id );
+			this.removeButton( buttons.previous.data.custom_id );
 			this.#disableNext();
 			this.#disablePrevious();
 			
@@ -476,4 +476,6 @@ module.exports = class ArrayManager {
 		if (!this.itemPerColumn) throw new Error( 'Missing columnCount parameter ( this.setColumnCount() )' );
 		if (!this.itemPerRow) throw new Error( 'Missing rowCount parameter ( this.setRowCount() )' );
 	}
-};
+}
+
+module.exports = {ArrayManager, buttons};
