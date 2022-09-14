@@ -1,14 +1,27 @@
-const {ActionRowBuilder, SelectMenuBuilder, ButtonStyle} = require( 'discord.js' );
-
+const {ActionRowBuilder, SelectMenuBuilder, ButtonBuilder, ButtonStyle} = require( 'discord.js' );
 
 /**
- * @name button
- * @type {{next: string, previous: string, current_page: string}}
+ * @name buttons
+ * @type {{next: ButtonBuilder, exit: ButtonBuilder, previous: ButtonBuilder, current_page: ButtonBuilder}}
  */
-const button = {
-	next: 'next',
-	previous: 'previous',
-	current_page: 'current_page',
+export const buttons = {
+	previous: new ButtonBuilder()
+		.setLabel( 'Previous' )
+		.setCustomId( 'previous' )
+		.setStyle( ButtonStyle.Primary ),
+	current_page: new ButtonBuilder()
+		.setLabel( 'current_page/total_page' )
+		.setCustomId( 'current_page' )
+		.setStyle( ButtonStyle.Secondary )
+		.setDisabled( true ),
+	next: new ButtonBuilder()
+		.setLabel( 'Next' )
+		.setCustomId( 'next' )
+		.setStyle( ButtonStyle.Primary ),
+	exit: new ButtonBuilder()
+		.setLabel( 'exit' )
+		.setCustomId( 'exit' )
+		.setStyle( ButtonStyle.Danger ),
 };
 
 /**
@@ -126,8 +139,8 @@ module.exports = class ArrayManager {
 			throw new Error( `Provided buttons are invalids` );
 		}
 		
-		if (!this.buttonExist( button.previous )) throw new Error( `Add a '${button.previous}' button to the button list` );
-		if (!this.buttonExist( button.next )) throw new Error( `Add a '${button.next}' button to the button list` );
+		if (!this.buttonExist( button.previous.data.custom_id )) throw new Error( `Add a '${button.previous.data.custom_id}' button to the button list` );
+		if (!this.buttonExist( button.next.data.custom_id )) throw new Error( `Add a '${button.next.data.custom_id}' button to the button list` );
 		return this;
 	}
 	
@@ -193,7 +206,7 @@ module.exports = class ArrayManager {
 	 * @return {this}
 	 */
 	displayCurrentPageInfo(boolean) {
-		if (!this.buttonExist( button.current_page )) throw new Error( `Add a '${button.current_page}' button to the button list` );
+		if (!this.buttonExist( button.current_page.data.custom_id )) throw new Error( `Add a '${button.current_page.data.custom_id}' button to the button list` );
 		this.#displayCurrentPageInfo = boolean;
 		return this;
 	}
@@ -328,11 +341,11 @@ module.exports = class ArrayManager {
 	 */
 	#disablePrevious(label) {
 		if (label === true) {
-			this.getButton( button.previous ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			this.getButton( button.previous.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.previous ).setDisabled( true ).setLabel( label );
+			this.getButton( button.previous.data.custom_id ).setDisabled( true ).setLabel( label );
 		} else {
-			this.getButton( button.previous ).setDisabled( true );
+			this.getButton( button.previous.data.custom_id ).setDisabled( true );
 		}
 	}
 	
@@ -342,11 +355,11 @@ module.exports = class ArrayManager {
 	 */
 	#enablePrevious(label) {
 		if (label === true) {
-			this.getButton( button.previous ).setDisabled( false ).setLabel( `${this.#currPageNumber}/${this.#totalPage + 1}` );
+			this.getButton( button.previous.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.previous ).setDisabled( false ).setLabel( label );
+			this.getButton( button.previous.data.custom_id ).setDisabled( false ).setLabel( label );
 		} else {
-			this.getButton( button.previous ).setDisabled( false );
+			this.getButton( button.previous.data.custom_id ).setDisabled( false );
 		}
 	}
 	
@@ -356,11 +369,11 @@ module.exports = class ArrayManager {
 	 */
 	#disableNext(label) {
 		if (label === true) {
-			this.getButton( button.next ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			this.getButton( button.next.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.next ).setDisabled( true ).setLabel( label );
+			this.getButton( button.next.data.custom_id ).setDisabled( true ).setLabel( label );
 		} else {
-			this.getButton( button.next ).setDisabled( true );
+			this.getButton( button.next.data.custom_id ).setDisabled( true );
 		}
 	}
 	
@@ -370,11 +383,11 @@ module.exports = class ArrayManager {
 	 */
 	#enableNext(label) {
 		if (label === true) {
-			this.getButton( button.next ).setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
+			this.getButton( button.next.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( button.next ).setDisabled( false ).setLabel( label );
+			this.getButton( button.next.data.custom_id ).setDisabled( false ).setLabel( label );
 		} else {
-			this.getButton( button.next ).setDisabled( false );
+			this.getButton( button.next.data.custom_id ).setDisabled( false );
 		}
 	}
 	
@@ -386,12 +399,12 @@ module.exports = class ArrayManager {
 	updateButtons() {
 		let buttons_bak = this.#buttons, start, end, menu;
 		
-		if (this.buttonExist( button.current_page )) {
+		if (this.buttonExist( button.current_page.data.custom_id )) {
 			if (this.#displayCurrentPageInfo) {
-				this.setLabel( button.current_page, `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+				this.setLabel( button.current_page.data.custom_id, `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 				
 			} else {
-				this.#buttons = this.removeButton( button.current_page );
+				this.#buttons = this.removeButton( button.current_page.data.custom_id );
 				
 			}
 		}
@@ -402,8 +415,8 @@ module.exports = class ArrayManager {
 			
 			
 		} else if (!this.#totalPage) { /* only one page */
-			this.removeButton( button.next );
-			this.removeButton( button.previous );
+			this.removeButton( button.next.data.custom_id );
+			this.removeButton( button.previous.data.custom_id );
 			this.#disableNext();
 			this.#disablePrevious();
 			
