@@ -152,7 +152,7 @@ class ArrayToCanvas extends ArrayManager {
 		let context = canvas.getContext( '2d' );
 		context.drawImage( this.#backgroundCanvas, 0, 0 );
 		
-		elementsToDisplay[0].forEach( async (item, i) => this.#drawItem( item, context, i ) );
+		elementsToDisplay[0].forEach( (item, i) => this.#drawItem( item, context, i ) );
 		
 		return {
 			tts: false,
