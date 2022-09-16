@@ -261,19 +261,22 @@ class ArrayToCanvas extends ArrayManager {
 				extraXSpacing = field.align === 'center' ? this.#itemWidth / 2 : 0;
 			switch (field.corner) {
 				case Corner.topLeft:
-					context.textAlign = field.align || 'left';
+					context.textAlign = field.align || 'start';
 					context.textBaseline = field.baseLine || 'top';
 					textCoords = [itemLeftCoords + field.marginX + extraXSpacing, itemTopCoords + field.marginY];
 					break;
 				case Corner.topRight:
+					context.textAlign = field.align || 'end';
 					context.textBaseline = field.baseLine || 'top';
 					textCoords = [itemRightCoords + field.marginX - extraXSpacing, itemTopCoords + field.marginY];
 					break;
 				case Corner.bottomLeft:
+					context.textAlign = field.align || 'start';
 					context.textBaseline = field.baseLine || 'bottom';
 					textCoords = [itemLeftCoords + field.marginX + extraXSpacing, itemBottomCoords + field.marginY];
 					break;
 				case Corner.bottomRight:
+					context.textAlign = field.align || 'end';
 					context.textBaseline = field.baseLine || 'bottom';
 					textCoords = [itemRightCoords + field.marginX - extraXSpacing, itemBottomCoords + field.marginY];
 					break;
@@ -284,7 +287,7 @@ class ArrayToCanvas extends ArrayManager {
 			context.strokeStyle = field.strokeColor;
 			context.lineWidth = field.strokeWidth;
 			context.textBaseline = field.baseLine;
-			context.textAlign = field.align;
+			context.textAlign = context.textAlign  || 'start';
 			
 			let text = item[field.name];
 			
@@ -352,7 +355,7 @@ class CanvasItem {
 				maxWidth: field.maxWidth,
 				corner: field.corner || Corner.topLeft,
 				baseLine: field.baseLine,
-				align: field.align || 'start',
+				align: field.align,
 				stroke: field.stroke,
 				strokeColor: field.strokeColor || '#000000',
 				strokeWidth: field.strokeWidth || 3,
