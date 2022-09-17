@@ -468,7 +468,7 @@ class ArrayManager {
 		// if (!this.arrayFields) throw new Error( 'Missing arrayFields parameter (this.setFields)' );
 		// if (!this.arrayOptions) throw new Error( 'Missing arrayOptions parameter (this.setOptions)' );
 		//if (this.selectMenu && !this.selectMenu.options.length) throw new Error( 'Missing options with selectMenu parameter ( SelectMenuBuilder().setOptions() )' );
-		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setArrayFields() )' );
+		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setFields() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Define a menu and/or an array parameter ( ( this.setSelectMenu() && this.setOptions() ) || this.setFields() )' );
 		if (!this.arrayFields && !this.arrayOptions) throw new Error( 'Define arrayFields or arrayOptions parameter ( this.setOptions || this.setFields() )' );
 		if (this.arrayFields && this.arrayOptions && this.arrayFields.length !== this.arrayOptions.length) throw new Error( `arrayFields ( length=${this.arrayFields.length} ) and arrayOptions ( length=${this.arrayOptions.length} ) must have the same length` );
