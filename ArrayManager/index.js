@@ -216,7 +216,7 @@ class ArrayManager {
 	
 	/**
 	 * @name getButton
-	 * @description Get a button by id
+	 * @description Get a button by object key
 	 * @param {string} buttonKey
 	 * @return {ButtonBuilder}
 	 */
@@ -315,11 +315,11 @@ class ArrayManager {
 	 */
 	#disablePrevious(label) {
 		if (label === true) {
-			buttons.previous.setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			this.getButton( 'previous' ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			buttons.previous.setDisabled( true ).setLabel( label );
+			this.getButton( 'previous' ).setDisabled( true ).setLabel( label );
 		} else {
-			buttons.previous.setDisabled( true );
+			this.getButton( 'previous' ).setDisabled( true );
 		}
 	}
 	
@@ -357,11 +357,11 @@ class ArrayManager {
 	 */
 	#enableNext(label) {
 		if (label === true) {
-			buttons.next.setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
+			this.getButton( 'next' ).setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
 		} else if (label) {
-			buttons.next.setDisabled( false ).setLabel( label );
+			this.getButton( 'next' ).setDisabled( false ).setLabel( label );
 		} else {
-			buttons.next.setDisabled( false );
+			this.getButton( 'next' ).setDisabled( false );
 		}
 	}
 	
