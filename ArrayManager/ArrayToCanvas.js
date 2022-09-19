@@ -287,7 +287,7 @@ class ArrayToCanvas extends ArrayManager {
 			context.strokeStyle = field.strokeColor;
 			context.lineWidth = field.strokeWidth;
 			context.textBaseline = field.baseLine;
-			context.textAlign = context.textAlign  || 'start';
+			context.textAlign = context.textAlign || 'start';
 			
 			let text = item[field.name];
 			

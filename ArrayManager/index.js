@@ -130,17 +130,9 @@ class ArrayManager {
 	 * @return {this}
 	 */
 	setButtons(buttons) {
-		try {
-			this.#buttons = {
-				buttonId: Object.values( buttons ).map( button => button.data.custom_id ),
-				button: Object.values( buttons ),
-			};
-		} catch (e) {
-			throw new Error( `Provided buttons are invalids` );
-		}
-		
-		if (!this.buttonExist( buttons.previous.data.custom_id )) throw new Error( `Add a '${buttons.previous.data.custom_id}' button to the button list` );
-		if (!this.buttonExist( buttons.next.data.custom_id )) throw new Error( `Add a '${buttons.next.data.custom_id}' button to the button list` );
+		this.#buttons = buttons;
+		if (!this.buttonExist( 'previous' )) throw new Error( 'Add a \'previous\' button to the button list' );
+		if (!this.buttonExist( 'next' )) throw new Error( 'Add a \'next\' button to the button list' );
 		return this;
 	}
 	
@@ -206,7 +198,7 @@ class ArrayManager {
 	 * @return {this}
 	 */
 	displayCurrentPageInfo(boolean) {
-		if (!this.buttonExist( buttons.current_page.data.custom_id )) throw new Error( `Add a '${buttons.current_page.data.custom_id}' button to the button list` );
+		if (!this.buttonExist( 'current_page' )) throw new Error( `Add a '${'current_page'}' button to the button list` );
 		this.#displayCurrentPageInfo = boolean;
 		return this;
 	}
@@ -225,83 +217,65 @@ class ArrayManager {
 	/**
 	 * @name getButton
 	 * @description Get a button by id
-	 * @param {string} buttonId
+	 * @param {string} buttonKey
 	 * @return {ButtonBuilder}
 	 */
-	getButton(buttonId) {
-		return this.#buttons.button[this.#getButtonIndex( buttonId )];
-	}
-	
-	/**
-	 * @name #getButtonIndex
-	 * @description Get a button index by id
-	 * @param {string} buttonId
-	 * @return {ButtonBuilder}
-	 */
-	#getButtonIndex(buttonId) {
-		const buttonIndex = this.#buttons.buttonId.indexOf( buttonId );
-		if (buttonIndex === -1) {
-			throw Error( 'Invalid button name' );
-		} else {
-			return buttonIndex;
-		}
+	getButton(buttonKey) {
+		return this.#buttons[buttonKey];
 	}
 	
 	/**
 	 * @name buttonExist
 	 * @description Check if a button exist
-	 * @param {string} buttonId
+	 * @param {string} buttonKey
 	 * @return {boolean}
 	 */
-	buttonExist(buttonId) {
-		return this.#buttons.buttonId.includes( buttonId );
+	buttonExist(buttonKey) {
+		return Object.keys( this.#buttons ).includes( buttonKey );
 	}
 	
 	/**
 	 * @name setLabel
 	 * @description Update button label
-	 * @param {string} buttonId
+	 * @param {string} buttonKey
 	 * @param {string} label
 	 */
-	setLabel(buttonId, label) {
-		this.getButton( buttonId ).setLabel( label );
+	setLabel(buttonKey, label) {
+		this.getButton( buttonKey ).setLabel( label );
 		return this;
 	}
 	
 	/**
 	 * @name setCustomId
 	 * @description Update button id
-	 * @param {string} buttonId
+	 * @param {string} buttonKey
 	 * @param {string} id
 	 */
-	setCustomId(buttonId, id) {
-		this.getButton( buttonId ).setCustomId( id );
+	setCustomId(buttonKey, id) {
+		this.getButton( buttonKey ).setCustomId( id );
 		return this;
 	}
 	
 	/**
 	 * @name setStyle
 	 * @description update button style
-	 * @param {string} buttonId
+	 * @param {string} buttonKey
 	 * @param {ButtonStyle} style
 	 */
-	setStyle(buttonId, style) {
-		this.getButton( buttonId ).setStyle( style );
+	setStyle(buttonKey, style) {
+		this.getButton( buttonKey ).setStyle( style );
 		return this;
 	}
 	
 	/**
 	 * @name removeButton
 	 * @description Remove the button from the button list
-	 * @param {string} buttonId
-	 * @return {{buttonId: *, buttons: *}}
+	 * @param {string} buttonKey
+	 * @return {{buttonKey: *, buttons: *}}
 	 */
-	removeButton(buttonId) {
-		const buttonIndex = this.#getButtonIndex( buttonId );
-		return {
-			buttonId: this.#buttons.buttonId.slice( 0, buttonIndex ).concat( this.#buttons.buttonId.slice( buttonIndex + 1 ) ),
-			button: this.#buttons.button.slice( 0, buttonIndex ).concat( this.#buttons.button.slice( buttonIndex + 1 ) ),
-		};
+	removeButton(buttonKey) {
+		const res = Object.fromEntries( Object.entries( this.#buttons ).filter( key => key !== buttonKey ) );
+		return res;
 	}
 	
 	/**
@@ -341,11 +315,11 @@ class ArrayManager {
 	 */
 	#disablePrevious(label) {
 		if (label === true) {
-			this.getButton( buttons.previous.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			buttons.previous.setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( buttons.previous.data.custom_id ).setDisabled( true ).setLabel( label );
+			buttons.previous.setDisabled( true ).setLabel( label );
 		} else {
-			this.getButton( buttons.previous.data.custom_id ).setDisabled( true );
+			buttons.previous.setDisabled( true );
 		}
 	}
 	
@@ -355,11 +329,11 @@ class ArrayManager {
 	 */
 	#enablePrevious(label) {
 		if (label === true) {
-			this.getButton( buttons.previous.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber}/${this.#totalPage + 1}` );
+			this.getButton( 'previous' ).setDisabled( false ).setLabel( `${this.#currPageNumber}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( buttons.previous.data.custom_id ).setDisabled( false ).setLabel( label );
+			this.getButton( 'previous' ).setDisabled( false ).setLabel( label );
 		} else {
-			this.getButton( buttons.previous.data.custom_id ).setDisabled( false );
+			this.getButton( 'previous' ).setDisabled( false );
 		}
 	}
 	
@@ -369,11 +343,11 @@ class ArrayManager {
 	 */
 	#disableNext(label) {
 		if (label === true) {
-			this.getButton( buttons.next.data.custom_id ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+			this.getButton( 'next' ).setDisabled( true ).setLabel( `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( buttons.next.data.custom_id ).setDisabled( true ).setLabel( label );
+			this.getButton( 'next' ).setDisabled( true ).setLabel( label );
 		} else {
-			this.getButton( buttons.next.data.custom_id ).setDisabled( true );
+			this.getButton( 'next' ).setDisabled( true );
 		}
 	}
 	
@@ -383,11 +357,11 @@ class ArrayManager {
 	 */
 	#enableNext(label) {
 		if (label === true) {
-			this.getButton( buttons.next.data.custom_id ).setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
+			buttons.next.setDisabled( false ).setLabel( `${this.#currPageNumber + 2}/${this.#totalPage + 1}` );
 		} else if (label) {
-			this.getButton( buttons.next.data.custom_id ).setDisabled( false ).setLabel( label );
+			buttons.next.setDisabled( false ).setLabel( label );
 		} else {
-			this.getButton( buttons.next.data.custom_id ).setDisabled( false );
+			buttons.next.setDisabled( false );
 		}
 	}
 	
@@ -398,13 +372,14 @@ class ArrayManager {
 	 */
 	updateButtons() {
 		let buttons_bak = this.#buttons, start, end, menu;
-		
-		if (this.buttonExist( buttons.current_page.data.custom_id )) {
+		console.log( 'displayCurrentPageInfo', this.buttonExist( 'current_page' ) );
+		if (this.buttonExist( 'current_page' )) {
 			if (this.#displayCurrentPageInfo) {
-				this.setLabel( buttons.current_page.data.custom_id, `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
+				console.log( 'displayCurrentPageInfo' );
+				this.setLabel( 'current_page', `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 				
 			} else {
-				this.#buttons = this.removeButton( buttons.current_page.data.custom_id );
+				this.#buttons = this.removeButton( 'current_page' );
 				
 			}
 		}
@@ -415,8 +390,8 @@ class ArrayManager {
 			
 			
 		} else if (!this.#totalPage) { /* only one page */
-			this.removeButton( buttons.next.data.custom_id );
-			this.removeButton( buttons.previous.data.custom_id );
+			this.removeButton( 'next' );
+			this.removeButton( 'previous' );
 			this.#disableNext();
 			this.#disablePrevious();
 			
@@ -434,7 +409,7 @@ class ArrayManager {
 			
 		}
 		
-		this.actionRow.setComponents( this.#buttons.button );
+		this.actionRow.setComponents( Object.values( this.#buttons ) );
 		this.#buttons = buttons_bak;
 	}
 	
@@ -468,7 +443,7 @@ class ArrayManager {
 		// if (!this.arrayFields) throw new Error( 'Missing arrayFields parameter (this.setFields)' );
 		// if (!this.arrayOptions) throw new Error( 'Missing arrayOptions parameter (this.setOptions)' );
 		//if (this.selectMenu && !this.selectMenu.options.length) throw new Error( 'Missing options with selectMenu parameter ( SelectMenuBuilder().setOptions() )' );
-		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setFields() )' );
+		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setArrayFields() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Define a menu and/or an array parameter ( ( this.setSelectMenu() && this.setOptions() ) || this.setFields() )' );
 		if (!this.arrayFields && !this.arrayOptions) throw new Error( 'Define arrayFields or arrayOptions parameter ( this.setOptions || this.setFields() )' );
 		if (this.arrayFields && this.arrayOptions && this.arrayFields.length !== this.arrayOptions.length) throw new Error( `arrayFields ( length=${this.arrayFields.length} ) and arrayOptions ( length=${this.arrayOptions.length} ) must have the same length` );

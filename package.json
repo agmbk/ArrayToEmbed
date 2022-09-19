@@ -1,6 +1,6 @@
 {
   "name": "@agmbk/array-to-embed",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Manage data array into an embed",
   "main": "index.js",
   "scripts": {
