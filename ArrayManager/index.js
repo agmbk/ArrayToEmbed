@@ -372,10 +372,8 @@ class ArrayManager {
 	 */
 	updateButtons() {
 		let buttons_bak = this.#buttons, start, end, menu;
-		console.log( 'displayCurrentPageInfo', this.buttonExist( 'current_page' ) );
 		if (this.buttonExist( 'current_page' )) {
 			if (this.#displayCurrentPageInfo) {
-				console.log( 'displayCurrentPageInfo' );
 				this.setLabel( 'current_page', `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 				
 			} else {
