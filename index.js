@@ -12,7 +12,7 @@ module.exports = {
 	 * Return an object containing the needed buttons
 	 * @example
 	 * buttons = getButtons()
-	 * @return {ButtonBuilder}
+	 * @return {{previous: ButtonBuilder, current_page: ButtonBuilder, next: ButtonBuilder, exit: ButtonBuilder}}
 	 */
 	getButtons: () => {
 		const _buttons = {};
