@@ -53,7 +53,7 @@ class ArrayManager {
 	arrayFields;
 	arrayOptions;
 	selectMenu;
-	#buttons;
+	buttons;
 	actionRow = new ActionRowBuilder();
 	#totalPage;
 	#currPageNumber = 0;
@@ -130,7 +130,7 @@ class ArrayManager {
 	 * @return {this}
 	 */
 	setButtons(buttons) {
-		this.#buttons = buttons;
+		this.buttons = buttons;
 		if (!this.buttonExist( 'previous' )) throw new Error( 'Add a \'previous\' button to the button list' );
 		if (!this.buttonExist( 'next' )) throw new Error( 'Add a \'next\' button to the button list' );
 		return this;
@@ -221,7 +221,7 @@ class ArrayManager {
 	 * @return {ButtonBuilder}
 	 */
 	getButton(buttonKey) {
-		return this.#buttons[buttonKey];
+		return this.buttons[buttonKey];
 	}
 	
 	/**
@@ -231,7 +231,7 @@ class ArrayManager {
 	 * @return {boolean}
 	 */
 	buttonExist(buttonKey) {
-		return Object.keys( this.#buttons ).includes( buttonKey );
+		return Object.keys(this.buttons).includes(buttonKey);
 	}
 	
 	/**
@@ -274,7 +274,7 @@ class ArrayManager {
 	 * @return {{buttonKey: *, buttons: *}}
 	 */
 	removeButton(buttonKey) {
-		const res = Object.fromEntries( Object.entries( this.#buttons ).filter( key => key !== buttonKey ) );
+		const res = Object.fromEntries(Object.entries(this.buttons).filter(key => key !== buttonKey));
 		return res;
 	}
 	
@@ -371,13 +371,13 @@ class ArrayManager {
 	 * @param {Object[]} arrayFields
 	 */
 	updateButtons() {
-		let buttons_bak = this.#buttons, start, end, menu;
+		let buttons_bak = this.buttons, start, end, menu;
 		if (this.buttonExist( 'current_page' )) {
 			if (this.#displayCurrentPageInfo) {
 				this.setLabel( 'current_page', `${this.#currPageNumber + 1}/${this.#totalPage + 1}` );
 				
 			} else {
-				this.#buttons = this.removeButton( 'current_page' );
+				this.buttons = this.removeButton('current_page');
 				
 			}
 		}
@@ -401,14 +401,14 @@ class ArrayManager {
 			
 		} else if (this.#currPage === page.last) {
 			
-			this.#disableNext( this.#countOnbutton );
-			this.#enablePrevious( this.#countOnbutton );
+			this.#disableNext(this.#countOnbutton);
+			this.#enablePrevious(this.#countOnbutton);
 			
 			
 		}
 		
-		this.actionRow.setComponents( Object.values( this.#buttons ) );
-		this.#buttons = buttons_bak;
+		this.actionRow.setComponents(Object.values(this.buttons));
+		this.buttons = buttons_bak;
 	}
 	
 	elementsToDisplay(arrayFields, arrayOptions) {
@@ -444,9 +444,9 @@ class ArrayManager {
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setArrayFields() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Define a menu and/or an array parameter ( ( this.setSelectMenu() && this.setOptions() ) || this.setFields() )' );
 		if (!this.arrayFields && !this.arrayOptions) throw new Error( 'Define arrayFields or arrayOptions parameter ( this.setOptions || this.setFields() )' );
-		if (this.arrayFields && this.arrayOptions && this.arrayFields.length !== this.arrayOptions.length) throw new Error( `arrayFields ( length=${this.arrayFields.length} ) and arrayOptions ( length=${this.arrayOptions.length} ) must have the same length` );
-		if (!this.#buttons) throw new Error( `Missing buttons parameter ( this.setButtons() )` );
-		if (!this.itemPerColumn) throw new Error( 'Missing columnCount parameter ( this.setColumnCount() )' );
+		if (this.arrayFields && this.arrayOptions && this.arrayFields.length !== this.arrayOptions.length) throw new Error(`arrayFields ( length=${this.arrayFields.length} ) and arrayOptions ( length=${this.arrayOptions.length} ) must have the same length`);
+		if (!this.buttons) throw new Error(`Missing buttons parameter ( this.setButtons() )`);
+		if (!this.itemPerColumn) throw new Error('Missing columnCount parameter ( this.setColumnCount() )');
 		if (!this.itemPerRow) throw new Error( 'Missing rowCount parameter ( this.setRowCount() )' );
 	}
 }
