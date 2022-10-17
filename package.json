@@ -1,6 +1,6 @@
 {
   "name": "@agmbk/array-to-embed",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Manage data array into an embed",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "agmbk:registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "canvas": "^2.10.1"
+    "canvas": "^2.10.1",
+    "user": "^0.0.0"
   }
 }

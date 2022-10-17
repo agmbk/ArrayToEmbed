@@ -172,10 +172,21 @@ class ArrayManager {
 			const rowSpacing = this.itemPerRow === 1 || this.itemPerRow === 3 ? 0 : this.itemPerPage / this.itemPerRow;
 			
 			if (this.arrayFields < 25) {
-				if (this.itemPerPage > 25 - rowSpacing) throw new Error( `Embed fields : Item per page must be <= 25\nReceived,  item per page ${this.itemPerRow}x${this.itemPerColumn}=${this.itemPerPage}, Row spacing ${rowSpacing} equals ${this.itemPerPage + rowSpacing}\nNote: Item per row != 1 and != 3 adds extra row spacing of (row count per page - 1, row count per page = arrayField.length / item per page / item per row)` );
+				if (this.itemPerPage > 25 - rowSpacing) throw new Error(`Embed fields : Item per page must be <= 25\nReceived,  item per page ${this.itemPerRow}x${this.itemPerColumn}=${this.itemPerPage}, Row spacing ${rowSpacing} equals ${this.itemPerPage + rowSpacing}\nNote: Item per row != 1 and != 3 adds extra row spacing of (row count per page - 1, row count per page = arrayField.length / item per page / item per row)`);
 			}
 			this.#setTotalPage();
 		}
+	}
+	
+	/**
+	 *
+	 * @param {Number} currPageNumber
+	 * @returns {ArrayManager}
+	 */
+	setCurrentPageNumber(currPageNumber) {
+		if (!(currPageNumber >= 0 && currPageNumber <= this.#totalPage)) throw Error('Invalid page number ' + currPageNumber);
+		this.#currPageNumber = currPageNumber;
+		return this;
 	}
 	
 	/**
@@ -186,7 +197,7 @@ class ArrayManager {
 		if (this.arrayFields || this.arrayOptions) {
 			this.#item_count = this.arrayFields ? this.arrayFields.length : this.arrayOptions.length;
 			if (this.itemPerPage && this.#item_count) {
-				this.#totalPage = Math.floor( (this.#item_count - 1) / this.itemPerPage );
+				this.#totalPage = Math.floor((this.#item_count - 1) / this.itemPerPage);
 			}
 		}
 	}
@@ -271,17 +282,16 @@ class ArrayManager {
 	 * @name removeButton
 	 * @description Remove the button from the button list
 	 * @param {string} buttonKey
-	 * @return {{buttonKey: *, buttons: *}}
+	 * @return {{[p: String]: ButtonBuilder}}
 	 */
 	removeButton(buttonKey) {
-		const res = Object.fromEntries(Object.entries(this.buttons).filter(key => key !== buttonKey));
-		return res;
+		return Object.fromEntries(Object.entries(this.buttons).filter(key => key !== buttonKey));
 	}
 	
 	/**
 	 * @name next
 	 * @description Get the next page
-	 * @return {{components: *[], embeds: *[]}}
+	 * @return {[Array,Array]}
 	 */
 	next() {
 		if (this.#currPageNumber < this.#totalPage) this.#currPageNumber++;
@@ -297,7 +307,7 @@ class ArrayManager {
 	/**
 	 * @name previous
 	 * @description Get the previous page
-	 * @return {{components: *[], embeds: *[]}}
+	 * @return {[Array,Array]}
 	 */
 	previous() {
 		if (this.#currPageNumber) this.#currPageNumber--;
@@ -440,7 +450,7 @@ class ArrayManager {
 	checker() {
 		// if (!this.arrayFields) throw new Error( 'Missing arrayFields parameter (this.setFields)' );
 		// if (!this.arrayOptions) throw new Error( 'Missing arrayOptions parameter (this.setOptions)' );
-		//if (this.selectMenu && !this.selectMenu.options.length) throw new Error( 'Missing options with selectMenu parameter ( SelectMenuBuilder().setOptions() )' );
+		// if (this.selectMenu && !this.selectMenu.options.length) throw new Error( 'Missing options with selectMenu parameter ( SelectMenuBuilder().setOptions() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setArrayFields() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Define a menu and/or an array parameter ( ( this.setSelectMenu() && this.setOptions() ) || this.setFields() )' );
 		if (!this.arrayFields && !this.arrayOptions) throw new Error( 'Define arrayFields or arrayOptions parameter ( this.setOptions || this.setFields() )' );
