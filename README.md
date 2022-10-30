@@ -22,7 +22,7 @@ This allows users to see the displayed items and to select them with the menu un
 ```js
 const {EmbedBuilder, ButtonStyle, ButtonBuilder, SelectMenuBuilder} = require( 'discord.js' );
 
-const ArrayToEmbed = require( '@agmbk/array-to-embed' );
+const {ArrayToEmbed} = require( '@agmbk/array-to-embed' );
 
 const buttons = {
 	previous: new ButtonBuilder()
@@ -90,7 +90,7 @@ interaction.reply( arrayToEmbed.render() )
 				await i.deferUpdate();
 			}
 		} );
-		collector.on( 'end', collected => {
+		collector.on( 'end', (collected, reason) => {
 			let message = {
 				tts: false,
 				content: null,
@@ -99,7 +99,7 @@ interaction.reply( arrayToEmbed.render() )
 				files: [],
 				ephemeral: true,
 			};
-			if (collected.at( -1 ) && collected.at( -1 ).customId === buttons.exit.data.custom_id) {
+			if (reason === buttons.exit.data.custom_id) {
 				message.content = 'User exit';
 			} else {
 				message.content = 'Interaction has expired';
