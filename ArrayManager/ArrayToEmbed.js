@@ -76,13 +76,17 @@ class ArrayToEmbed extends ArrayManager {
 	render() {
 		const elementsToDisplay = super.render();
 		
+		const embeds = [];
+		if (elementsToDisplay[0]) embeds.push(this.#createFields(elementsToDisplay[0]));
+		else if (this.embed) embeds.push(this.embed);
+		
 		return {
 			tts: false,
 			content: null,
-			embeds: elementsToDisplay[0] ? [this.#createFields( elementsToDisplay[0] )] : [],
-			components: [this.actionRow].concat( this.selectMenu ? this.#createMenu( elementsToDisplay[1] ) : [] ),
+			embeds,
+			components: [this.actionRow].concat(this.selectMenu ? this.#createMenu(elementsToDisplay[1]) : []),
 			files: [],
-			ephemeral: this.ephemeral,
+			ephemeral: this.ephemeral
 		};
 	}
 	
