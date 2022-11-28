@@ -23,21 +23,6 @@ class ArrayToEmbed extends ArrayManager {
 	constructor() {super();}
 	
 	/**
-	 * @name #createMenu
-	 * @description Create the menu choice list
-	 * @param arrayMenu
-	 * @return {ActionRowBuilder}
-	 */
-	#createMenu(arrayMenu) {
-		const menuOption = this.selectMenu.options.length;
-		if (arrayMenu && this.itemPerPage + menuOption > 25) throw new Error( `Select menu : Item per page must be <= 25\nReceived item per page(${this.itemPerPage}), select menu options(${menuOption}), Total ${this.itemPerPage + menuOption}` );
-		
-		const selectMenu = new SelectMenuBuilder();
-		selectMenu.data = this.selectMenu.data;
-		return new ActionRowBuilder().setComponents( selectMenu.setOptions( (arrayMenu ? arrayMenu : []).concat( [...this.selectMenu.options] ) ) );
-	}
-	
-	/**
 	 * @name #createFields
 	 * @description Create embed fields
 	 * @param {Object[]} arrayFields
@@ -84,7 +69,7 @@ class ArrayToEmbed extends ArrayManager {
 			tts: false,
 			content: null,
 			embeds,
-			components: [this.actionRow].concat(this.selectMenu ? this.#createMenu(elementsToDisplay[1]) : []),
+			components: [this.actionRow].concat(this.selectMenu ? this.createMenu(elementsToDisplay[1]) : []),
 			files: [],
 			ephemeral: this.ephemeral
 		};

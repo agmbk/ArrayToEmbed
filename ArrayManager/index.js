@@ -428,9 +428,23 @@ class ArrayManager {
 		end = this.#currPageNumber * this.itemPerPage + this.itemPerPage;
 		end = end > this.#item_count ? this.#item_count : end;
 		
-		if (arrayOptions) slicedMenu = arrayOptions.slice( start, end );
-		if (arrayFields) slicedArray = arrayFields.slice( start, end );
+		if (arrayOptions) slicedMenu = arrayOptions.slice(start, end);
+		if (arrayFields) slicedArray = arrayFields.slice(start, end);
 		return [slicedArray, slicedMenu];
+	}
+	
+	/**
+	 * @name createMenu
+	 * @description Create the menu choice list
+	 * @param arrayMenu
+	 * @return {ActionRowBuilder}
+	 */
+	createMenu(arrayMenu) {
+		if (arrayMenu && this.itemPerPage > 25) throw new Error(`Select menu : Item per page must be <= 25\nReceived item per column(${this.itemPerColumn}), item per row(${this.itemPerRow}), Total ${this.itemPerPage}`);
+		
+		const selectMenu = new SelectMenuBuilder();
+		selectMenu.data = this.selectMenu.data;
+		return new ActionRowBuilder().setComponents(selectMenu.setOptions((arrayMenu ? arrayMenu : []).concat([...this.selectMenu.options])));
 	}
 	
 	/**
@@ -441,7 +455,7 @@ class ArrayManager {
 	render() {
 		this.checker();
 		this.updateButtons();
-		return this.elementsToDisplay( this.arrayFields, this.arrayOptions );
+		return this.elementsToDisplay(this.arrayFields, this.arrayOptions);
 	}
 	
 	/**
