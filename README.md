@@ -20,9 +20,9 @@ This allows users to see the displayed items and to select them with the menu un
 ### The code
 
 ```js
-const {EmbedBuilder, ButtonStyle, ButtonBuilder, SelectMenuBuilder} = require( 'discord.js' );
+const {EmbedBuilder, ButtonStyle, ButtonBuilder, StringSelectMenuBuilder} = require('discord.js');
 
-const {ArrayToEmbed} = require( '@agmbk/array-to-embed' );
+const {ArrayToEmbed} = require('@agmbk/array-to-embed');
 
 const buttons = {
 	previous: new ButtonBuilder()
@@ -50,8 +50,8 @@ for (let i = 0; i < 30; i++) {
 	arrayMenu.push( {label: `Item ${i}`, value: `item_${i}`, description: `Item n°${i}`} );
 }
 
-const selectMenu = new SelectMenuBuilder()
-	.setCustomId( 'CustomId' )
+const selectMenu = new StringSelectMenuBuilder()
+	.setCustomId('CustomId')
 	.setPlaceholder( 'Placeholder' )
 	.setOptions( [{label: 'bar', value: 'bar', description: 'bar'}, {
 		label: 'foo',

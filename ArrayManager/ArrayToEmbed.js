@@ -1,5 +1,5 @@
-const {ActionRowBuilder, SelectMenuBuilder} = require( 'discord.js' );
-const {ArrayManager} = require( './index' );
+const {ActionRowBuilder, StringSelectMenuBuilder} = require('discord.js');
+const {ArrayManager} = require('./index');
 
 
 /**
@@ -14,7 +14,7 @@ const {ArrayManager} = require( './index' );
  * @param {EmbedBuilder} embed An embed
  * @param {[{string, string}]} arrayFields ArrayFields of object with two fields
  * @param {[{string, string, string}]} arrayMenu
- * @param {SelectMenuBuilder} selectMenu
+ * @param {StringSelectMenuBuilder} selectMenu
  * @param {{ButtonBuilder}} buttons Must contains 'next' and 'previous'
  * @param {number} itemPerPage Item count displayed on each page
  * @param {number} itemPerColumn Item count displayed on each column

@@ -1,4 +1,9 @@
-const {ActionRowBuilder, SelectMenuBuilder, ButtonBuilder, ButtonStyle} = require( 'discord.js' );
+const {
+	ActionRowBuilder,
+	StringSelectMenuBuilder,
+	ButtonBuilder,
+	ButtonStyle
+} = require('discord.js');
 
 /**
  * @name buttons
@@ -43,7 +48,7 @@ const page = {
  * @param {EmbedBuilder} embed An embed
  * @param {[{string, string}]} arrayFields ArrayFields of object with two fields
  * @param {[{string, string, string}]} arrayOptions
- * @param {SelectMenuBuilder} selectMenu
+ * @param {StringSelectMenuBuilder} selectMenu
  * @param {{ButtonBuilder}} buttons Must contains 'next' and 'previous'
  * @param {number} itemPerPage Item count displayed on each page
  * @param {number} itemPerColumn Item count displayed on each column
@@ -91,7 +96,7 @@ class ArrayManager {
 	/**
 	 * @name setSelectMenu
 	 * @description Set selectMenu
-	 * @param {SelectMenuBuilder} selectMenu
+	 * @param {StringSelectMenuBuilder} selectMenu
 	 * @return {this}
 	 */
 	setSelectMenu(selectMenu) {
@@ -442,7 +447,7 @@ class ArrayManager {
 	createMenu(arrayMenu) {
 		if (arrayMenu && this.itemPerPage > 25) throw new Error(`Select menu : Item per page must be <= 25\nReceived item per column(${this.itemPerColumn}), item per row(${this.itemPerRow}), Total ${this.itemPerPage}`);
 		
-		const selectMenu = new SelectMenuBuilder();
+		const selectMenu = new StringSelectMenuBuilder();
 		selectMenu.data = this.selectMenu.data;
 		return new ActionRowBuilder().setComponents(selectMenu.setOptions((arrayMenu ? arrayMenu : []).concat([...this.selectMenu.options])));
 	}
@@ -464,7 +469,7 @@ class ArrayManager {
 	checker() {
 		// if (!this.arrayFields) throw new Error( 'Missing arrayFields parameter (this.setFields)' );
 		// if (!this.arrayOptions) throw new Error( 'Missing arrayOptions parameter (this.setOptions)' );
-		// if (this.selectMenu && !this.selectMenu.options.length) throw new Error( 'Missing options with selectMenu parameter ( SelectMenuBuilder().setOptions() )' );
+		// if (this.selectMenu && !this.selectMenu.options.length) throw new Error( 'Missing options with selectMenu parameter ( StringSelectMenuBuilder().setOptions() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Missing selectMenu or arrayFields parameter ( this.setSelectMenu) || (this.setArrayFields() )' );
 		if (!this.arrayFields && !this.selectMenu) throw new Error( 'Define a menu and/or an array parameter ( ( this.setSelectMenu() && this.setOptions() ) || this.setFields() )' );
 		if (!this.arrayFields && !this.arrayOptions) throw new Error( 'Define arrayFields or arrayOptions parameter ( this.setOptions || this.setFields() )' );

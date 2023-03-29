@@ -1,5 +1,5 @@
-const {ActionRowBuilder, SelectMenuBuilder, AttachmentBuilder} = require( 'discord.js' );
-const {ArrayManager} = require( './index' );
+const {ActionRowBuilder, StringSelectMenuBuilder, AttachmentBuilder} = require('discord.js');
+const {ArrayManager} = require('./index');
 const Canvas = require( 'canvas' );
 
 /**
